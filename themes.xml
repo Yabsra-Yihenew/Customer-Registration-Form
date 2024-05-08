@@ -1,1 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CustomerRegistration" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- Define the golden color -->
+        <item name="colorPrimary">#E5B665</item>
+        <!-- Define the white text color -->
+        <item name="android:textColorPrimary">#FFFFFF</item>
+    </style>
+
+    <style name="Theme.CustomerRegistration" parent="Base.Theme.CustomerRegistration" />
+</resources>
 
