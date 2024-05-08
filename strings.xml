@@ -1,1 +1,13 @@
+<resources>
+    <string name="app_name">Customer Registration</string>
+    <string-array name="areaLists">
+        <item> </item>
+        <item>Kasanchis</item>
+        <item>Megenaga</item>
+        <item>Arat Kilo</item>
+    </string-array>
+    <string name="apartment" >Apartment</string>
+    <string name="villa" >Villa</string>
+    <string name="share" >Share</string>
 
+</resources>
