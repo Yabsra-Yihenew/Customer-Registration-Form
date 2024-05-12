@@ -21,9 +21,9 @@
             android:layout_height="21dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:hint="Phone number"
             android:text="Phone number"
             android:textColor="#FFFFFF"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/FnameEditTxt" />
 
@@ -35,7 +35,7 @@
             android:layout_marginTop="24dp"
             android:text="Full name"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customerRegTxt" />
 
@@ -43,7 +43,7 @@
             android:id="@+id/customerRegTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Customer Registration Form"
             android:textColor="#E6B765"
             android:textColorLink="#2196F3"
@@ -114,6 +114,7 @@
             android:id="@+id/chooseImgBtn"
             android:layout_width="95dp"
             android:layout_height="27dp"
+            android:layout_marginStart="45dp"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="45dp"
             android:background="#FFD700"
@@ -127,6 +128,7 @@
             android:textStyle="bold"
             app:iconSize="14dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editTextPhone"
             app:layout_constraintTop_toBottomOf="@+id/chooseImgView" />
 
         <EditText
@@ -304,8 +306,8 @@
 
             <RadioButton
                 android:id="@+id/classB"
-                android:layout_width="162dp"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
                 android:text="Class B"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
