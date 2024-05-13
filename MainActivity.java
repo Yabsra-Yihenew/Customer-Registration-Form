@@ -2,10 +2,17 @@ package com.example.customerregistration;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,30 +26,68 @@ public class MainActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
     private EditText dateButton;
+    private ImageView chooseImgView; // ImageView for displaying selected image
+    private static final int IMAGE_PICK_REQUEST = 1; // Image pick request code
+    private EditText FnameEditTxt, editTextPhone, editTextTextEmailAddress, datePicker;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.phoneNumTxt), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        initDatePicker();
-        dateButton = findViewById(R.id.datePicker);
-        // Set the default text to "Select date"
-        dateButton.setText("Select date");
-        // Set onClickListener to open DatePicker dialog
-        dateButton.setOnClickListener(new View.OnClickListener() {
+
+        // Initialize EditText and ImageView variables
+        FnameEditTxt = findViewById(R.id.FnameEditTxt);
+        editTextPhone = findViewById(R.id.editTextPhone);
+        editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
+        datePicker = findViewById(R.id.datePicker);
+        chooseImgView = findViewById(R.id.chooseImgView);
+
+        // Find the "Preview" button by its ID
+        Button previewButton = findViewById(R.id.previewBtn);
+
+        // Set OnClickListener to open Preview activity when the button is clicked
+        previewButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                openDatePicker(view);
+            public void onClick(View v) {
+                // Start the Preview activity and pass the field information
+                Intent intent = new Intent(MainActivity.this, Preview.class);
+                intent.putExtra("fullName", FnameEditTxt.getText().toString());
+                intent.putExtra("phoneNumber", editTextPhone.getText().toString());
+                intent.putExtra("email", editTextTextEmailAddress.getText().toString());
+                intent.putExtra("dateOfBirth", datePicker.getText().toString());
+                // Add more fields as needed...
+                startActivity(intent);
+            }
+        });
+
+        // Set OnClickListener for choosing image
+        chooseImgView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chooseImg(v);
             }
         });
     }
 
+    // Method to handle image selection
+    public void chooseImg(View view) {
+        // Create an intent to open the image gallery
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, IMAGE_PICK_REQUEST);
+    }
+
+    // Override onActivityResult to handle the result of the image selection
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMAGE_PICK_REQUEST && resultCode == RESULT_OK && data != null) {
+            // Get the URI of the selected image
+            Uri imageUri = data.getData();
+            // Set the selected image URI to the ImageView
+            chooseImgView.setImageURI(imageUri);
+        }
+    }
     private String getTodaysDate()
     {
         Calendar cal = Calendar.getInstance();
