@@ -40,8 +40,22 @@ public class Preview extends AppCompatActivity {
             boolean isVillaChecked = intent.getBooleanExtra("isVillaChecked", false);
             boolean isShareChecked = intent.getBooleanExtra("isShareChecked", false);
 
-           
+            nameTextView.setText(fullName);
+            phoneNumTextView.setText(phoneNumber);
+            emailtv.setText(email);
+            DOBtv.setText(dateOfBirth);
+            prefAreatv.setText(spinnerValue);
+            StringBuilder checkedTypes = new StringBuilder();
+            if (isApartmentChecked) {
+                checkedTypes.append("Apartment ");
+            }
+            if (isVillaChecked) {
+                checkedTypes.append("Villa ");
+            }
+            if (isShareChecked) {
+                checkedTypes.append("Share ");
+            }
+            proTypetv.setText(checkedTypes.toString().trim());
         }
     }
 }
-
