@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -6,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/body"
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="21dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Phone number"
+            android:text="@string/phone_number"
             android:textColor="#FFFFFF"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
             android:layout_height="23dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
-            android:text="Full name"
+            android:text="@string/full_name"
             android:textColor="#FFFFFF"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Customer Registration Form"
+            android:text="@string/customer_registration"
             android:textColor="#E6B765"
             android:textColorLink="#2196F3"
             android:textSize="24sp"
@@ -59,7 +59,7 @@
             android:layout_height="21dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Email"
+            android:text="@string/email"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextPhone" />
@@ -107,8 +107,7 @@
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/FnameEditTxt"
-            app:layout_constraintTop_toBottomOf="@+id/customerRegTxt"
-            app:srcCompat="@drawable/uploadimg1" />
+            app:layout_constraintTop_toBottomOf="@+id/customerRegTxt" />
 
         <Button
             android:id="@+id/chooseImgBtn"
@@ -120,7 +119,7 @@
             android:background="#FFD700"
             android:onClick="chooseImg"
             android:padding="1dp"
-            android:text="Choose Image"
+            android:text="@string/choose_image"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textColorLink="#E5B665"
@@ -133,14 +132,14 @@
 
         <EditText
             android:id="@+id/datePicker"
-            android:layout_width="148dp"
-            android:layout_height="43dp"
+            android:layout_width="116dp"
+            android:layout_height="42dp"
             android:layout_marginStart="16dp"
             android:ems="10"
             android:inputType="date"
-            android:text="Select date"
-            android:textColor="#BFFFFFFF"
             android:onClick="openDatePicker"
+            android:text="@string/select_date"
+            android:textColor="#BFFFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/DOBTxt" />
 
@@ -160,7 +159,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Date Of Birth"
+            android:text="@string/date_of_birth"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress" />
@@ -171,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Gender"
+            android:text="@string/gender"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/datePicker" />
@@ -190,7 +189,7 @@
                 android:id="@+id/maleBtn"
                 android:layout_width="77dp"
                 android:layout_height="match_parent"
-                android:text="Male"
+                android:text="@string/male"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
 
@@ -198,7 +197,7 @@
                 android:id="@+id/femaleBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Female"
+                android:text="@string/female"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
         </RadioGroup>
@@ -223,7 +222,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Preferrd Area"
+            android:text="@string/preferred_area"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/genderTxt" />
@@ -268,7 +267,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Property type"
+            android:text="@string/property_type"
             android:textColor="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
@@ -280,7 +279,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="Customer type"
+            android:text="@string/customer_type"
             android:textColor="#FFFFFF"
             android:textColorLink="#FFFFFF"
             app:layout_constraintStart_toStartOf="parent"
@@ -300,7 +299,7 @@
                 android:id="@+id/classA"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:text="Class A"
+                android:text="@string/class_a"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
 
@@ -308,7 +307,7 @@
                 android:id="@+id/classB"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:text="Class B"
+                android:text="@string/class_b"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
 
@@ -316,7 +315,7 @@
                 android:id="@+id/classC"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Class C"
+                android:text="@string/class_c"
                 android:textColor="#BFFFFFFF"
                 android:textSize="12sp" />
         </RadioGroup>
@@ -326,11 +325,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Preview"
+            android:text="@string/preview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/customerTypeRadio" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
