@@ -6,19 +6,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.util.Calendar;
 
@@ -29,7 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private ImageView chooseImgView; // ImageView for displaying selected image
     private static final int IMAGE_PICK_REQUEST = 1; // Image pick request code
     private EditText FnameEditTxt, editTextPhone, editTextTextEmailAddress, datePicker;
-
+    private RadioGroup radioGroup, customerTypeRadio;
+    private Spinner spinner;
+    private CheckBox apartment, villa, share;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,15 @@ public class MainActivity extends AppCompatActivity {
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
         datePicker = findViewById(R.id.datePicker);
         chooseImgView = findViewById(R.id.chooseImgView);
+        spinner = findViewById(R.id.spinner);
+        apartment = findViewById(R.id.apartment);
+        villa = findViewById(R.id.villa);
+        share = findViewById(R.id.share);
+        radioGroup = findViewById(R.id.radioGroup);
+        customerTypeRadio = findViewById(R.id.customerTypeRadio);
 
-        // Find the "Preview" button by its ID
+        initDatePicker();
+
         Button previewButton = findViewById(R.id.previewBtn);
 
         // Set OnClickListener to open Preview activity when the button is clicked
@@ -56,7 +63,41 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("phoneNumber", editTextPhone.getText().toString());
                 intent.putExtra("email", editTextTextEmailAddress.getText().toString());
                 intent.putExtra("dateOfBirth", datePicker.getText().toString());
-                // Add more fields as needed...
+
+                int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
+                String gender = "";
+                if (selectedRadioButtonId != -1) {
+                    RadioButton radioButton = findViewById(selectedRadioButtonId);
+                    gender = radioButton.getText().toString();
+                }
+                intent.putExtra("gender", gender);
+
+                int selectedCustomerTypeId = customerTypeRadio.getCheckedRadioButtonId();
+                String customerType = "";
+                if (selectedCustomerTypeId != -1) {
+                    RadioButton radioButton = findViewById(selectedCustomerTypeId);
+                    customerType = radioButton.getText().toString();
+                }
+                intent.putExtra("customerType", customerType);
+
+                String spinnerValue = spinner.getSelectedItem().toString();
+                intent.putExtra("spinnerValue", spinnerValue);
+
+                boolean isApartmentChecked = apartment.isChecked();
+                boolean isVillaChecked = villa.isChecked();
+                boolean isShareChecked = share.isChecked();
+
+                intent.putExtra("isApartmentChecked", isApartmentChecked);
+                intent.putExtra("isVillaChecked", isVillaChecked);
+                intent.putExtra("isShareChecked", isShareChecked);
+
+                // Get the image URI
+                Uri imageUri = getImageUri();
+                if (imageUri != null) {
+                    // Pass the image URI directly to the Preview activity
+                    intent.putExtra("imageUri", imageUri.toString());
+                }
+
                 startActivity(intent);
             }
         });
@@ -77,6 +118,14 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(intent, IMAGE_PICK_REQUEST);
     }
 
+    // Method to get the image URI from the ImageView
+    private Uri getImageUri() {
+        if (chooseImgView.getDrawable() != null) {
+            return (Uri) chooseImgView.getTag();
+        }
+        return null;
+    }
+
     // Override onActivityResult to handle the result of the image selection
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -86,24 +135,19 @@ public class MainActivity extends AppCompatActivity {
             Uri imageUri = data.getData();
             // Set the selected image URI to the ImageView
             chooseImgView.setImageURI(imageUri);
+            // Set the tag of the ImageView to the image URI
+            chooseImgView.setTag(imageUri);
         }
     }
-    private String getTodaysDate()
-    {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        month = month + 1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(day, month, year);
-    }
+
+    // Method to initialize the date picker
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
-                dateButton.setText(date);
+                MainActivity.this.datePicker.setText(date);
             }
         };
 
@@ -121,45 +165,13 @@ public class MainActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(cal.getTimeInMillis());
     }
 
+    // Method to create a date string in the format "day/month/year"
     private String makeDateString(int day, int month, int year) {
         return day + "/" + month + "/" + year;
     }
 
-
-    private String getMonthFormat(int month)
-    {
-        if(month == 1)
-            return "JAN";
-        if(month == 2)
-            return "FEB";
-        if(month == 3)
-            return "MAR";
-        if(month == 4)
-            return "APR";
-        if(month == 5)
-            return "MAY";
-        if(month == 6)
-            return "JUN";
-        if(month == 7)
-            return "JUL";
-        if(month == 8)
-            return "AUG";
-        if(month == 9)
-            return "SEP";
-        if(month == 10)
-            return "OCT";
-        if(month == 11)
-            return "NOV";
-        if(month == 12)
-            return "DEC";
-
-        //default should never happen
-        return "JAN";
-    }
-
-    public void openDatePicker(View view)
-    {
+    // Method to open the date picker dialog
+    public void openDatePicker(View view) {
         datePickerDialog.show();
     }
-
 }
