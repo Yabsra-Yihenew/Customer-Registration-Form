@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize EditText and ImageView variables
+        // Initialize variables
         FnameEditTxt = findViewById(R.id.FnameEditTxt);
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
@@ -54,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         share = findViewById(R.id.share);
         radioGroup = findViewById(R.id.radioGroup);
         customerTypeRadio = findViewById(R.id.customerTypeRadio);
+        Uri imageUri = getImageUri();
+        if (imageUri != null) {
+            outState.putString("imageUri", imageUri.toString());
+        }
 
         initDatePicker();
 
@@ -116,6 +120,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore the URI of the selected image if available
+        String imageUriString = savedInstanceState.getString("imageUri");
+        if (imageUriString != null) {
+            Uri imageUri = Uri.parse(imageUriString);
+            chooseImgView.setImageURI(imageUri);
+            chooseImgView.setTag(imageUri);  // Save the URI to the ImageView's tag
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,14 +164,12 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Exit the app
                 finish();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Dismiss the dialog
                 dialog.dismiss();
             }
         });
