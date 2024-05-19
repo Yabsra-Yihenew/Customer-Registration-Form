@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize variables
+        // Initialize EditText and ImageView variables
         FnameEditTxt = findViewById(R.id.FnameEditTxt);
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextTextEmailAddress = findViewById(R.id.editTextTextEmailAddress);
@@ -54,10 +54,6 @@ public class MainActivity extends AppCompatActivity {
         share = findViewById(R.id.share);
         radioGroup = findViewById(R.id.radioGroup);
         customerTypeRadio = findViewById(R.id.customerTypeRadio);
-        Uri imageUri = getImageUri();
-        if (imageUri != null) {
-            outState.putString("imageUri", imageUri.toString());
-        }
 
         initDatePicker();
 
@@ -67,51 +63,47 @@ public class MainActivity extends AppCompatActivity {
         previewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Start the Preview activity and pass the field information
-                Intent intent = new Intent(MainActivity.this, Preview.class);
-                intent.putExtra("fullName", FnameEditTxt.getText().toString());
-                intent.putExtra("phoneNumber", editTextPhone.getText().toString());
-                intent.putExtra("email", editTextTextEmailAddress.getText().toString());
-                intent.putExtra("dateOfBirth", datePicker.getText().toString());
+                // Create a new Bundle to store data
+                Bundle bundle = new Bundle();
+
+                // Put data into the Bundle
+                bundle.putString("fullName", FnameEditTxt.getText().toString());
+                bundle.putString("phoneNumber", editTextPhone.getText().toString());
+                bundle.putString("email", editTextTextEmailAddress.getText().toString());
+                bundle.putString("dateOfBirth", datePicker.getText().toString());
 
                 int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
-                String gender = "";
                 if (selectedRadioButtonId != -1) {
                     RadioButton radioButton = findViewById(selectedRadioButtonId);
-                    gender = radioButton.getText().toString();
+                    bundle.putString("gender", radioButton.getText().toString());
                 }
-                intent.putExtra("gender", gender);
 
                 int selectedCustomerTypeId = customerTypeRadio.getCheckedRadioButtonId();
-                String customerType = "";
                 if (selectedCustomerTypeId != -1) {
                     RadioButton radioButton = findViewById(selectedCustomerTypeId);
-                    customerType = radioButton.getText().toString();
+                    bundle.putString("customerType", radioButton.getText().toString());
                 }
-                intent.putExtra("customerType", customerType);
 
                 String spinnerValue = spinner.getSelectedItem().toString();
-                intent.putExtra("spinnerValue", spinnerValue);
+                bundle.putString("spinnerValue", spinnerValue);
 
-                boolean isApartmentChecked = apartment.isChecked();
-                boolean isVillaChecked = villa.isChecked();
-                boolean isShareChecked = share.isChecked();
-
-                intent.putExtra("isApartmentChecked", isApartmentChecked);
-                intent.putExtra("isVillaChecked", isVillaChecked);
-                intent.putExtra("isShareChecked", isShareChecked);
+                bundle.putBoolean("isApartmentChecked", apartment.isChecked());
+                bundle.putBoolean("isVillaChecked", villa.isChecked());
+                bundle.putBoolean("isShareChecked", share.isChecked());
 
                 // Get the image URI
                 Uri imageUri = getImageUri();
                 if (imageUri != null) {
-                    // Pass the image URI directly to the Preview activity
-                    intent.putExtra("imageUri", imageUri.toString());
+                    // Pass the image URI as a string to the Bundle
+                    bundle.putString("imageUri", imageUri.toString());
                 }
 
+                // Start the Preview activity and pass the Bundle
+                Intent intent = new Intent(MainActivity.this, Preview.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
-
         // Set OnClickListener for choosing image
         chooseImgView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,18 +112,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore the URI of the selected image if available
-        String imageUriString = savedInstanceState.getString("imageUri");
-        if (imageUriString != null) {
-            Uri imageUri = Uri.parse(imageUriString);
-            chooseImgView.setImageURI(imageUri);
-            chooseImgView.setTag(imageUri);  // Save the URI to the ImageView's tag
-        }
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -164,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
+                // Exit the application
+                finishAffinity();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -176,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
     private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
