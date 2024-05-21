@@ -29,7 +29,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
-    private EditText dateButton;
+    private EditText  dateButton;
     private ImageView chooseImgView; // ImageView for displaying selected image
     private static final int IMAGE_PICK_REQUEST = 1; // Image pick request code
     private EditText FnameEditTxt, editTextPhone, editTextTextEmailAddress, datePicker;
