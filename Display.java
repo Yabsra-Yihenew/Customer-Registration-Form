@@ -2,26 +2,22 @@ package com.example.customerregistration;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class Display extends AppCompatActivity {
 
-    private ActionMode actionMode;
-    private int selectedItemPosition = -1;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +26,51 @@ public class Display extends AppCompatActivity {
 
         String[] customerList = getResources().getStringArray(R.array.customer_List);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, customerList);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, customerList);
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        // Enable multiple choice mode for the ListView
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+        listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if (actionMode != null) {
+            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
+                int checkedCount = listView.getCheckedItemCount();
+                mode.setTitle(checkedCount + " selected");
+            }
+
+            @Override
+            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+                MenuInflater inflater = mode.getMenuInflater();
+                inflater.inflate(R.menu.context_menu, menu);
+                return true;
+            }
+
+            @Override
+            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+                return false;
+            }
+
+            @Override
+            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+                SparseBooleanArray selected = listView.getCheckedItemPositions();
+                int itemId = item.getItemId();
+                if (itemId == R.id.edit) {
+                    editItems(selected);
+                    mode.finish();
+                    return true;
+                } else if (itemId == R.id.delete) {
+                    deleteItems(selected);
+                    mode.finish();
+                    return true;
+                } else {
                     return false;
                 }
-                selectedItemPosition = position;
-                actionMode = startActionMode(actionModeCallback);
-                view.setSelected(true);
-                return true;
+            }
+
+            @Override
+            public void onDestroyActionMode(ActionMode mode) {
+                // No action needed
             }
         });
 
@@ -54,47 +81,25 @@ public class Display extends AppCompatActivity {
         });
     }
 
-    private final ActionMode.Callback actionModeCallback = new ActionMode.Callback() {
-
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.context_menu, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            int itemId = item.getItemId();
-            if (itemId == R.id.edit) {
-                editItem(selectedItemPosition);
-                mode.finish();
-                return true;
-            } else if (itemId == R.id.delete) {
-                deleteItem(selectedItemPosition);
-                mode.finish();
-                return true;
-            } else {
-                return false;
+    private void editItems(SparseBooleanArray selected) {
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < selected.size(); i++) {
+            if (selected.valueAt(i)) {
+                String customerName = adapter.getItem(selected.keyAt(i));
+                names.append(customerName).append("\n");
             }
         }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            actionMode = null;
-        }
-    };
-
-    private void editItem(int position) {
-        Toast.makeText(this, "Edit item at position: " + position, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Editing:\n" + names.toString(), Toast.LENGTH_LONG).show();
     }
 
-    private void deleteItem(int position) {
-        Toast.makeText(this, "Delete item at position: " + position, Toast.LENGTH_LONG).show();
+    private void deleteItems(SparseBooleanArray selected) {
+        StringBuilder names = new StringBuilder();
+        for (int i = 0; i < selected.size(); i++) {
+            if (selected.valueAt(i)) {
+                String customerName = adapter.getItem(selected.keyAt(i));
+                names.append(customerName).append("\n");
+            }
+        }
+        Toast.makeText(this, "Deleting:\n" + names.toString(), Toast.LENGTH_LONG).show();
     }
 }
