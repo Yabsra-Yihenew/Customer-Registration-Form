@@ -16,7 +16,7 @@
         android:layout_marginTop="32dp"
         android:text="Customers"
         android:textAlignment="textStart"
-        android:textColor="#FAD757"
+        android:textColor="#E6B765"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,10 +36,12 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="394dp"
+        android:layout_height="48dp"
         android:layout_marginTop="50dp"
+        android:fontFamily="monospace"
         android:text="Welcome to Abetew Real estate"
+        android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
         android:textSize="22sp"
