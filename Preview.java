@@ -78,9 +78,11 @@ public class Preview extends AppCompatActivity {
             Uri imageUri = Uri.parse(intent.getStringExtra("imageUri"));
             imageView.setImageURI(imageUri);
 
+            // Set OnClickListener for the save button
             Button saveButton = findViewById(R.id.saveBtn);
             saveButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    // Show an AlertDialog to confirm successful registration
                     AlertDialog.Builder builder = new AlertDialog.Builder(Preview.this);
                     builder.setMessage("Registered successfully");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -102,12 +104,14 @@ public class Preview extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu with options
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle menu item selection
         int id = item.getItemId();
 
         if (id == R.id.exit) {
@@ -125,6 +129,7 @@ public class Preview extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Method to show an exit confirmation dialog
     private void showExitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to exit?");
@@ -146,6 +151,7 @@ public class Preview extends AppCompatActivity {
         dialog.show();
     }
 
+    // Method to change the app's locale
     private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
@@ -153,6 +159,6 @@ public class Preview extends AppCompatActivity {
         Configuration config = resources.getConfiguration();
         config.setLocale(locale);
         resources.updateConfiguration(config, resources.getDisplayMetrics());
-        recreate();
+        recreate(); // Recreate the activity to apply the new locale
     }
 }
