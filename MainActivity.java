@@ -29,7 +29,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
-    private EditText  dateButton;
+    private EditText dateButton;
     private ImageView chooseImgView; // ImageView for displaying selected image
     private static final int IMAGE_PICK_REQUEST = 1; // Image pick request code
     private EditText FnameEditTxt, editTextPhone, editTextTextEmailAddress, datePicker;
@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         customerTypeRadio = findViewById(R.id.customerTypeRadio);
 
+        // Initialize the date picker dialog
         initDatePicker();
 
         Button previewButton = findViewById(R.id.previewBtn);
@@ -72,29 +73,32 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("email", editTextTextEmailAddress.getText().toString());
                 bundle.putString("dateOfBirth", datePicker.getText().toString());
 
+                // Get selected radio button ID for gender and add to bundle
                 int selectedRadioButtonId = radioGroup.getCheckedRadioButtonId();
                 if (selectedRadioButtonId != -1) {
                     RadioButton radioButton = findViewById(selectedRadioButtonId);
                     bundle.putString("gender", radioButton.getText().toString());
                 }
 
+                // Get selected radio button ID for customer type and add to bundle
                 int selectedCustomerTypeId = customerTypeRadio.getCheckedRadioButtonId();
                 if (selectedCustomerTypeId != -1) {
                     RadioButton radioButton = findViewById(selectedCustomerTypeId);
                     bundle.putString("customerType", radioButton.getText().toString());
                 }
 
+                // Get the selected spinner value and add to bundle
                 String spinnerValue = spinner.getSelectedItem().toString();
                 bundle.putString("spinnerValue", spinnerValue);
 
+                // Add checkbox values to the bundle
                 bundle.putBoolean("isApartmentChecked", apartment.isChecked());
                 bundle.putBoolean("isVillaChecked", villa.isChecked());
                 bundle.putBoolean("isShareChecked", share.isChecked());
 
-                // Get the image URI
+                // Get the image URI and add to the bundle
                 Uri imageUri = getImageUri();
                 if (imageUri != null) {
-                    // Pass the image URI as a string to the Bundle
                     bundle.putString("imageUri", imageUri.toString());
                 }
 
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         // Set OnClickListener for choosing image
         chooseImgView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -123,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        // Handle menu item selection
         if (id == R.id.exit) {
             showExitDialog();
             return true;
@@ -138,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Show a dialog to confirm exiting the app
     private void showExitDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Are you sure you want to exit?");
@@ -157,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    // Set the app's locale to the specified language
     private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
