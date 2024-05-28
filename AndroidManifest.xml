@@ -2,33 +2,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Define application attributes and metadata -->
     <application
-        android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/calander"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/Theme.CustomerRegistration"
-        tools:targetApi="31">
+        android:allowBackup="true" <!-- Enable backup for the application -->
+        android:dataExtractionRules="@xml/data_extraction_rules" <!-- Specify data extraction rules for backup -->
+        android:fullBackupContent="@xml/backup_rules" <!-- Specify full backup content rules -->
+        android:icon="@drawable/calander" <!-- Application icon -->
+        android:label="@string/app_name" <!-- Application label -->
+        android:roundIcon="@mipmap/ic_launcher_round" <!-- Application round icon -->
+        android:supportsRtl="true" <!-- Support for RTL (Right-to-Left) layouts -->
+        android:theme="@style/Theme.CustomerRegistration" <!-- Application theme -->
+        tools:targetApi="31"> <!-- Target API level for the tools namespace -->
+
+        <!-- Define the Display activity -->
         <activity
             android:name=".Display"
-            android:exported="true" >
+            android:exported="true" > <!-- This activity is exported, meaning it can be started by components of other applications -->
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" /> <!-- This activity is the main entry point of the application -->
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" /> <!-- This activity should appear in the application launcher -->
             </intent-filter>
         </activity>
+
+        <!-- Define the Preview activity -->
         <activity
             android:name=".Preview"
-            android:exported="false" />
+            android:exported="false" /> <!-- This activity is not exported, meaning it can only be started by components of the same application -->
+
+        <!-- Define the MainActivity -->
         <activity
             android:name=".MainActivity"
-            android:configChanges="locale|orientation|screenSize"
-            android:exported="false">
+            android:configChanges="locale|orientation|screenSize" <!-- Handle configuration changes such as locale, orientation, and screen size -->
+            android:exported="false"> <!-- This activity is not exported -->
         </activity>
+
     </application>
 
 </manifest>
